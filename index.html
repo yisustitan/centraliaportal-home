@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centralia Portal - App Studio Independiente</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <style>
+        :root {
+            --bg-main: #0F1B2D;
+            --bg-card: #162236;
+            --bg-card-hover: #1E2F47;
+            --accent-mint: #00C896;
+            --accent-purple: #7C6EF5;
+            --text-main: #F0F4FF;
+            --text-secondary: #9AABC4;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --font-sans: 'DM Sans', sans-serif;
+            --font-serif: 'DM Serif Display', serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(124, 110, 245, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 200, 150, 0.08) 0%, transparent 50%);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Nav / Header */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(15, 27, 45, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-main);
+            text-shadow: 0 0 10px rgba(124, 110, 245, 0.4);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-mint);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-mint), var(--accent-purple));
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(124, 110, 245, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-main) !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-glass);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-secondary);
+        }
+
+        /* Hamburger menu for mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-main);
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 5% 6rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(124, 110, 245, 0.15);
+            color: var(--accent-purple);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(124, 110, 245, 0.3);
+        }
+
+        .badge.mint {
+            background: rgba(0, 200, 150, 0.15);
+            color: var(--accent-mint);
+            border-color: rgba(0, 200, 150, 0.3);
+        }
+
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: 3.8rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--text-main) 20%, var(--accent-mint) 50%, var(--accent-purple) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(0, 200, 150, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-inline: auto;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* Section Global */
+        .section-container {
+            padding: 6rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-main);
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* App Showcase (Flagship) */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .showcase-content h2 {
+            font-family: var(--font-serif);
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .showcase-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: var(--text-main);
+        }
+
+        .features-list li::before {
+            content: '✓';
+            color: var(--accent-mint);
+            font-weight: bold;
+            background: rgba(0, 200, 150, 0.15);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .app-preview-box {
+            background: linear-gradient(145deg, #1A263C, #0F1B2D);
+            border: 1px solid rgba(0, 200, 150, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 200, 150, 0.1);
+        }
+
+        .app-preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 1rem;
+        }
+
+        .metric-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+        }
+        
+        .metric-value {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            color: var(--accent-mint);
+            margin-top: 0.5rem;
+        }
+
+        /* Manifiesto Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(124, 110, 245, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(124, 110, 245, 0.2);
+        }
+
+        /* Labs Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .labs-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .labs-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-mint));
+            opacity: 0.7;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-glass);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-glass);
+            padding: 3rem 5%;
+            margin-top: 4rem;
+            text-align: center;
+            color: var(--text-secondary);
+            background: #0B1320;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Responsiveness */
+        @media (max-width: 992px) {
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 27, 45, 0.98);
+                backdrop-filter: blur(10px);
+                padding: 2rem 0;
+                border-bottom: 1px solid var(--border-glass);
+                gap: 1.5rem;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .hero-actions {
+                flex-direction: column;
+            }
+            .grid-3, .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero {
+                padding-top: 5rem;
+            }
+            .app-preview-box {
+                padding: 1.5rem;
+            }
+            .metric-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <span>💎</span> Centralia Portal
+        </a>
+        <div class="menu-toggle" onclick="document.getElementById('navMenu').classList.toggle('active')">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-links" id="navMenu">
+            <a href="#apps" onclick="document.getElementById('navMenu').classList.remove('active')">Catálogo de Apps</a>
+            <a href="#manifiesto" onclick="document.getElementById('navMenu').classList.remove('active')">Manifiesto</a>
+            <a href="#labs" onclick="document.getElementById('navMenu').classList.remove('active')">Centralia Labs</a>
+            <a href="/recursos-vip/index.html" onclick="document.getElementById('navMenu').classList.remove('active')">Área VIP / Reseller</a>
+            <a href="#apps" class="btn-primary" style="padding: 0.5rem 1rem;" onclick="document.getElementById('navMenu').classList.remove('active')">Explorar Apps</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="badge">🚀 Estudio de Software Independiente</div>
+        <h1>Software Potente, Privado y de Pago Único</h1>
+        <p>Diseñamos herramientas locales de alto rendimiento. Sin suscripciones recurrentes, sin servidores externos que rastreen tu información y con el control total en tus manos.</p>
+        <div class="hero-actions">
+            <a href="#apps" class="btn-primary">Ver Producto Estrella ↓</a>
+            <a href="/recursos-vip/index.html" class="btn-outline">Programa de Licencias VIP</a>
+        </div>
+    </header>
+
+    <!-- App Showcase (FlowMint) -->
+    <section id="apps" class="section-container">
+        <div class="glass-card">
+            <div class="showcase-grid">
+                <div class="showcase-content">
+                    <div class="badge mint">🔥 Flagship / Producto Destacado</div>
+                    <h2>FlowMint App</h2>
+                    <p>El gestor financiero definitivo que vive en tu navegador. Toma el control total de tus ingresos y gastos utilizando la poderosa Regla 50/30/20.</p>
+                    
+                    <ul class="features-list">
+                        <li>100% Local (Privacidad absoluta)</li>
+                        <li>Gestión basada en Regla 50/30/20</li>
+                        <li>Soporte Multi-Moneda integrado</li>
+                        <li>Licencia Reseller disponible ($149 USD)</li>
+                    </ul>
+
+                    <div class="hero-actions" style="justify-content: flex-start;">
+                        <a href="flowmint.html" class="btn-primary">Ver Demo de la App</a>
+                        <a href="https://centraliaportal.com/flowmint-landing" class="btn-outline">Ver Landing de Venta ($19 USD)</a>
+                    </div>
+                </div>
+
+                <!-- Preview Box -->
+                <div class="app-preview-box">
+                    <div class="app-preview-header">
+                        <h3 style="font-family: var(--font-serif); font-size: 1.5rem;">Dashboard Financiero</h3>
+                        <div style="display: flex; gap: 5px;">
+                            <div style="width:12px; height:12px; border-radius:50%; background:#FF5F56;"></div>
+                            <div style="width:12px; height:12px; border-radius:50%; background:#FFBD2E;"></div>
+                            <div style="width:12px; height:12px; border-radius:50%; background:#27C93F;"></div>
+                        </div>
+                    </div>
+                    <div class="metric-cards">
+                        <div class="metric-card">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">Ingresos Totales</div>
+                            <div class="metric-value">$4,250.00</div>
+                        </div>
+                        <div class="metric-card">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">Gastos Esenciales (50%)</div>
+                            <div class="metric-value" style="color: var(--text-main);">$1,800.00</div>
+                        </div>
+                        <div class="metric-card">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">Gastos Personales (30%)</div>
+                            <div class="metric-value" style="color: var(--text-main);">$950.00</div>
+                        </div>
+                        <div class="metric-card">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">Ahorro/Inversión (20%)</div>
+                            <div class="metric-value" style="color: var(--accent-purple);">$1,500.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manifiesto -->
+    <section id="manifiesto" class="section-container">
+        <h2 class="section-title">Nuestra Filosofía</h2>
+        <div class="grid-3">
+            <div class="glass-card">
+                <div class="icon-box">🔒</div>
+                <h3 style="margin-bottom: 1rem; font-family: var(--font-serif); font-size: 1.4rem;">Privacidad Absoluta</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Tus datos se guardan exclusivamente en tu LocalStorage. No utilizamos servidores externos, bases de datos en la nube, ni rastreadores de información.</p>
+            </div>
+            <div class="glass-card">
+                <div class="icon-box" style="background: rgba(0, 200, 150, 0.1); border-color: rgba(0, 200, 150, 0.2);">💳</div>
+                <h3 style="margin-bottom: 1rem; font-family: var(--font-serif); font-size: 1.4rem;">Pago Único Real</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Olvídate de las dolorosas mensualidades. Adquiere el software una sola vez y obtén acceso de por vida junto con todas sus actualizaciones futuras.</p>
+            </div>
+            <div class="glass-card">
+                <div class="icon-box" style="background: rgba(255, 189, 46, 0.1); border-color: rgba(255, 189, 46, 0.2);">💼</div>
+                <h3 style="margin-bottom: 1rem; font-family: var(--font-serif); font-size: 1.4rem;">Licenciamiento Reseller</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Convierte nuestras apps en tu negocio. Adquiere licencias comerciales y quédate con el 100% de las ganancias en cada venta que realices.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Centralia Labs -->
+    <section id="labs" class="section-container" style="padding-top: 2rem;">
+        <h2 class="section-title">Centralia Labs: Próximos Desarrollos</h2>
+        <div class="grid-2">
+            <div class="glass-card labs-card">
+                <div class="status-badge">En Desarrollo</div>
+                <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 0.5rem;">TaskMint</h3>
+                <p style="color: var(--text-secondary);">Gestor de proyectos 100% local diseñado específicamente para la agilidad de freelancers y creativos independientes.</p>
+            </div>
+            <div class="glass-card labs-card">
+                <div class="status-badge">Próximamente</div>
+                <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 0.5rem;">InvoiceMint</h3>
+                <p style="color: var(--text-secondary);">Generador ultra-rápido de presupuestos y facturas en formato PDF, sin necesidad de conexión a internet.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#apps">Catálogo</a>
+            <a href="#manifiesto">Manifiesto</a>
+            <a href="#labs">Laboratorio</a>
+            <a href="/recursos-vip/index.html">Área de Revendedores</a>
+        </div>
+        <div class="logo" style="justify-content: center; margin-bottom: 1rem; font-size: 1.2rem;">
+            <span>💎</span> Centralia Portal
+        </div>
+        <p>&copy; 2026 Centralia Portal. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
